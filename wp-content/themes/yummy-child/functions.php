@@ -199,6 +199,57 @@ endif;
 
  /* Custom functions */
 
+ function custom_post_type() {
+   	// Set UI labels for Custom Post Type
+	$labels = array(
+		'name'                => _x( 'Hunajasta', 'Post Type General Name', 'yummy-child' ),
+		'singular_name'       => _x( 'Info-artikkeli', 'Post Type Singular Name', 'yummy-child' ),
+		'menu_name'           => __( 'Hunaja-info', 'yummy-child' ),
+		'view_item'           => __( 'Näytä', 'yummy-child' ),
+		'add_new_item'        => __( 'Lisää artikkeli', 'yummy-child' ),
+		'add_new'             => __( 'Lisää uusi', 'yummy-child' ),
+		'edit_item'           => __( 'Muokkaa artikkelia', 'yummy-child' ),
+		'update_item'         => __( 'Päivitä artikkeli', 'yummy-child' ),
+		'not_found'           => __( 'Ei löytynyt', 'yummy-child' ),
+		'not_found_in_trash'  => __( 'Ei löytynyt roskakorista', 'yummy-child' ),
+	);
+	// Set other options for Custom Post Type
+	
+	$args = array(
+		'label'               => __( 'hunaja-info', 'yummy-child' ),
+		'description'         => __( 'Kiinnostavaa tietoa hunajasta!', 'yummy-child' ),
+		'labels'              => $labels,
+		// Features this CPT supports in Post Editor
+		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+		// You can associate this CPT with a taxonomy or custom taxonomy. 
+		'taxonomies'          => array( 'genres' ),
+		/* A hierarchical CPT is like Pages and can have
+		* Parent and child items. A non-hierarchical CPT
+		* is like Posts.
+		*/ 
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 3,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'page',
+	);
+	
+	// Registering your Custom Post Type
+	register_post_type( 'hunaja-info', $args );
+}
+
+/* Hook into the 'init' action so that the function
+* Containing our post type registration is not 
+* unnecessarily executed. 
+*/
+add_action( 'init', 'custom_post_type', 0 );
 
 
 
