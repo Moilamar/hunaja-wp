@@ -44,6 +44,7 @@ do_action( 'yummy_footer' );
  * @hooked yummy_back_to_top -  110
  *
  */
+
 do_action( 'yummy_footer_end' );
 /**
  * yummy_page_end_action hook

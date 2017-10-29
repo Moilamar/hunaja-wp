@@ -275,7 +275,7 @@ if ( ! function_exists( 'yummy_copyright' ) ) :
 		if ( ! empty( $copyright_text ) ) :  ?>
 	    <div class="site-info">
 	    	<span class="copyright"><?php echo wp_kses_post( $copyright_text ); ?></span>
-	    	<span><?php printf( esc_html__( '%1$s by %2$s', 'yummy' ), 'Yummy', '<a href="' . esc_url( 'http://www.themepalace.com/' ) . '" rel="designer" target="_blank">Theme Palace</a>' ); ?></span>
+	    	<span><?php printf('<a href="' . '">Mesiäinen</a>' ); ?></span>
 	    </div><!-- end .site-info -->  	
 	<?php
 		endif;
