@@ -20,6 +20,8 @@ get_header(); ?>
 			<main  class="site-main" role="main">
 				<div id="main" class="main-archive-wrapper clear">
 					<?php
+
+					query_posts('post_type=hunaja-info');
 					if ( have_posts() ) :
 						
 						$index = 1;
@@ -34,9 +36,9 @@ get_header(); ?>
 							$index++;
 						
 						endwhile;
-					else :
+					/* else :
 
-						get_template_part( 'template-parts/content', 'none' );
+						get_template_part( 'template-parts/content', 'none' ); */
 
 					endif; ?>
 				</div>

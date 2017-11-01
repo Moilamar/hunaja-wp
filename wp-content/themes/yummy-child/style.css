@@ -626,6 +626,10 @@ a:active {
     
 }
 .comments-link span { display:none }
+.entry-utility-prep-cat-links, .meta-sep { display:none;}
+.attachment-post-thumbnail {
+}
+
 
 
 
