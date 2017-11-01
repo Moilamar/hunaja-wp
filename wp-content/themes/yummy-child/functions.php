@@ -222,7 +222,7 @@ endif;
 		// Features this CPT supports in Post Editor
 		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
 		// You can associate this CPT with a taxonomy or custom taxonomy. 
-		'taxonomies'          => array( 'genres' ),
+		'taxonomies'          => array( 'category' ),
 		/* A hierarchical CPT is like Pages and can have
 		* Parent and child items. A non-hierarchical CPT
 		* is like Posts.
