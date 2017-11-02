@@ -629,7 +629,9 @@ a:active {
 .entry-utility-prep-cat-links, .meta-sep { display:none;}
 .attachment-post-thumbnail {
 }
-
+.fa-search {
+    display: none;
+}
 
 
 
