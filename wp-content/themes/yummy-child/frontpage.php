@@ -9,7 +9,6 @@ get_header(); ?>
 			<main  class="site-main" role="main">
 				<div id="main" class="main-archive-wrapper clear">
 					<?php
-
 					query_posts('post_type=hunaja-info');
 					if ( have_posts() ) :
 						
