@@ -40,14 +40,31 @@ do_action( 'yummy_footer_start' );
 
 
  /* Custom footer */
+ $link = "http://$_SERVER[HTTP_HOST]"."/hunajawp/wordpress/";
  ?>
  <footer id="colophon" class="site-footer col-1" role="contentinfo">
- <div class="bottom-footer page-section" style="background-image: url('http://localhost/hunajawp/wordpress/wp-content/themes/yummy-child/assets/uploads/site-info.jpg');">
+ <div class="bottom-footer page-section" style="background-image: url('<?php echo $link."wp-content/themes/yummy-child/assets/uploads/site-info.jpg"  ?>');">
  <div class="wrapper">
- <div class="social-link">
- <ul id="menu-footer" class="social-icons">
- <li id="menu-item-48" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-48">
- <a href="http://localhost/hunajawp/wordpress/ota-yhteytta/">Ota Yhteyttä</a></li></ul></div><div class="site-info"> 
+ <div class="social-links" style="margin-left:-20px;">
+ <ul id="menu-footer" style="display:flex;list-style:none;width:100%;margin:0 auto;text-align:center;">
+    <span style="display:table;margin:0px auto 0px auto;">
+        <span id="menu-item-48" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-48" >
+            <a href="http://localhost/hunajawp/wordpress/ota-yhteytta/">
+                <img style="width:70px;border-radius:35px;display:inline;" src="<?php echo $link."wp-content/themes/yummy-child/assets/uploads/mhh.png"  ?>" />
+            </a>
+        </span>
+        <span id="menu-item-48" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-48">
+            <a href="">
+                <img style="width:70px;border-radius:35px;display:inline;margin-left:25px;" src="<?php echo $link."wp-content/themes/yummy-child/assets/uploads/f.png"  ?>" />
+            </a>
+        </span>
+        <span id="menu-item-48" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-48">
+            <a href="">
+                <img style="width:70px;border-radius:35px;display:inline;margin-left:25px;" src="<?php echo $link."wp-content/themes/yummy-child/assets/uploads/index.png"  ?>" />
+            </a>
+        </span>
+    </li>
+</ul></div><div class="site-info"> 
  <span class="copyright">Copyright © 2017. All Rights Reserved</span> <span><a href="">Mesiäinen
  </a></span></div></div></div></footer>
 <?php
