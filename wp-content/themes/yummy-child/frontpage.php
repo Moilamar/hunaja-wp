@@ -1,7 +1,9 @@
 <?php
-/*
-Template Name: Frontpage
+/**
+* Template Name: Frontpage
 */
+?>
+<?php
 global $post;
 get_header(); ?>
 	<div class="wrapper page-section">

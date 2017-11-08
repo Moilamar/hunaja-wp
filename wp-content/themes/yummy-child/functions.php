@@ -254,6 +254,14 @@ add_action( 'init', 'custom_post_type', 0 );
 
 
 
+
+
+
+
+
+
+
+
  
 function yummy_scripts() {
 	$options = yummy_get_theme_options();
