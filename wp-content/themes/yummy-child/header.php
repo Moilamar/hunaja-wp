@@ -68,14 +68,14 @@
 	 */
 	do_action( 'yummy_content_start_action' );
 
-	if( is_home() || !is_front_page() ) { 
+	/* if( is_home() || !is_front_page() ) {  */
 		/**
 		 * yummy_banner_image_action hook
 		 *
 		 * @hooked yummy_banner_image_start -  10
 		 */
 		do_action( 'yummy_banner_image_action' );
-	}
+	/* } */
 	/**
 	 * yummy_primary_content_action hook
 	 *
