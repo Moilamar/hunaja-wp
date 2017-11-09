@@ -45,7 +45,7 @@ do_action( 'yummy_footer_start' );
  <footer id="colophon" class="site-footer col-1" role="contentinfo">
  <div class="bottom-footer page-section" style="background-image: url('<?php echo $link."wp-content/themes/yummy-child/assets/uploads/site-info.jpg"  ?>');">
  <div class="wrapper">
- <div class="social-links" style="margin-left:-20px;">
+ <div class="social-links" style="margin-left:-25px;">
  <ul id="menu-footer" style="display:flex;list-style:none;width:100%;margin:0 auto;text-align:center;">
     <span style="display:table;margin:0px auto 0px auto;">
         <span id="menu-item-48" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-48" >

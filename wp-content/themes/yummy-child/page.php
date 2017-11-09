@@ -39,7 +39,7 @@
                 </main><!-- #main -->
             </div><!-- #primary -->
             <?php
-            if ( yummy_is_sidebar_enable() ) {
+            if ( yummy_is_sidebar_enable() && $pagename != "yritys" ) {
                 get_sidebar();
             } ?>
         </div><!-- .wrapper/.page-section-->
