@@ -639,11 +639,31 @@ a:active {
 .fa-search {
     display: none;
 }
-
-
-
-
-
+.woocommerce-MyAccount-navigation {
+    width: 276px !important;
+    margin: 10px;
+}
+.woocommerce-MyAccount-navigation ul {
+    list-style-type: none;
+    margin-left: -24px;
+    width: 300px;
+}
+.woocommerce-MyAccount-navigation ul li {
+    width: 276px;
+}
+.woocommerce-MyAccount-navigation-link--downloads {
+    display: none !important;
+    visibility: none !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+.woocommerce-MyAccount-content {
+    margin-top: 5px;
+}
+.sub-menu li, .sub-menu li a {
+    margin-top: -5px;
+}
 
 
 
