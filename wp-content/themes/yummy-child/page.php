@@ -13,7 +13,6 @@
  * @subpackage Yummy
  * @since Yummy 0.1
  */
- 
  if ($pagename == "ota-yhteytta" || $pagename == "my-account") {
     global $post;
     get_header("no-banner");

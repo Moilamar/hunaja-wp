@@ -14,7 +14,7 @@
  * @since Yummy 0.1
  */
 global $post;
-get_header(); ?>
+get_header();  ?>
 	<div class="wrapper page-section">
 		<div id="primary" class="content-area">
 			<main  class="site-main" role="main">

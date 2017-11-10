@@ -664,10 +664,14 @@ a:active {
 .sub-menu li, .sub-menu li a {
     margin-top: -5px;
 }
-
-
-
-
+.woocommerce-product-gallery {
+    width: 400px !important;
+    margin-left: 70px !important;
+    margin-top: 20px !important;
+}
+.summary {
+    margin-top: 20px !important;
+}
 
 
 
