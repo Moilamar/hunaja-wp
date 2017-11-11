@@ -1,0 +1,180 @@
+@media screen and (min-width: 37.5em) {
+    .main-navigation {
+        clear: both;
+        display: block;
+        float: left;
+        width: 100%;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        ul {
+            display: none;
+            list-style: none;
+            margin: 0;
+            padding-left: 0;
+            float: right;
+            li {
+                margin: 0;
+                padding: 0;
+                a {
+                    padding: 10px 0 10px 25px;
+                    color: $color-secondary;
+                    font-weight: 400;
+                }
+                &.menu-item-has-children:after {
+                    color: darken($color-quaternary, 5%);
+                }
+            }
+            ul {
+                background: darken($color-secondary, 25%);
+                float: left;
+                position: absolute;
+                top: 100%;
+                left: -999em;
+                z-index: 99999;
+                font-size: 1.4rem;
+                margin: 0;
+                ul {
+                    left: -999em;
+                    top: 0;
+                    margin: 0;
+                }
+
+                li {
+                    &:hover > ul,
+                    &.focus > ul {
+                        position: inherit;
+                        background: rgba(7,5,3,.5);
+                        margin: 0;
+                    }
+                }
+                a {
+                    width: 200px;
+                    color: #fff;
+                }
+                :hover > a,
+                .focus > a {
+                }
+                a:hover,
+                a.focus {
+                    background: rgba(7,5,3,.5);
+                }
+            }
+
+            li:hover > ul,
+            li.focus > ul {
+                right: 0;
+                left: auto;
+            }
+        }
+
+        li {
+            float: left;
+            position: relative;
+
+            &:hover > a,
+            &.focus > a {
+            }
+        }
+
+        a {
+            display: block;
+            text-decoration: none;
+        }
+
+        .current_page_item > a,
+        .current-menu-item > a,
+        .current_page_ancestor > a,
+        .current-menu-ancestor > a {
+        }
+        .menu-item-has-children a{
+            padding-right: 60px;
+        }
+        .menu-item-has-children:after {
+            font-family: 'simple-line-icons';
+            content: "\e604";
+            padding: 14px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #fff;
+            font-size: 11px;
+            background: rgba(7,5,3,0.05);
+        }
+    }
+    .menu-toggle {
+		display: none;
+	}
+    .main-navigation ul {
+		display: block;
+	}
+}
+#menu-toggle-wrap {
+    text-align: center;
+    .menu-toggle {
+        margin: 0 auto;
+        margin-bottom: 15px;
+    }
+}
+@media screen and (max-width: 37.5em) { 
+  /* #menu is the original menu */
+  /* Small menu. */
+    .menu-toggle,
+    .main-navigation.toggled ul {
+        display: block;
+    }
+    .main-navigation.toggled ul ul {
+        display: none;
+    }
+    .site-header-menu {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .main-navigation {
+        clear: both;
+        display: block;
+        float: left;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            a {
+                display: block;
+                padding: 10px 25px;
+                color: #fff;
+                font-weight: 400;
+            }
+            background: darken($color-secondary, 25%);
+            display: none;
+            list-style: none;
+            li:hover > ul,
+            li.focus > ul {
+                font-size: 1.4rem;
+                background: rgba(7,5,3,0.05);
+                display: block;
+            }
+            ul {
+                display: none;
+            }
+            li {
+                display: block;
+                position: relative;
+            }
+        }
+        .menu-item-has-children:after {
+            font-family: 'simple-line-icons';
+            content: "\e604";
+            padding: 14px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #fff;
+            font-size: 11px;
+            background: rgba(0,0,0,.1);
+        }
+     }       
+}

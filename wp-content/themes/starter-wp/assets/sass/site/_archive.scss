@@ -1,0 +1,112 @@
+/* Archive
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.blog, .archive, .search{
+
+    .sticky {
+        padding: 10px;
+        border-image: url(./assets/images/hr-bg.jpg) 50 round;
+        .post-thumbnail {
+            border-radius: 3px;
+            overflow: hidden;
+        }
+    }
+    .page-header {
+        background:  $color-tertiary;
+        //background-image: url(img/polygon-bg.png);
+        background-repeat: repeat;
+        background-position: left top;
+        background-attachment: local;
+        text-align: center;
+        padding: 50px;
+        .entry-title {
+            font-size: 4.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .entry-meta,
+        .entry-meta a {
+           color: $color-quaternary;
+        }
+        .breadcrumbs {
+            color: $color-quaternary;
+            text-transform: lowercase;
+            a {
+                color: darken($color-quaternary, 15%);
+            }
+        }
+        .taxonomy-description {
+            color: darken($color-quaternary, 15%);
+            font-size: 2rem;
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .hentry {
+        margin-bottom: 25px;
+        position: relative;
+    }
+    .entry-date {
+        background: rgba(255, 255, 255, 0.8);
+        display: inline-block;
+        padding: 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 1.2rem;
+        margin: 10px;
+        line-height: 1;
+        border-radius: 2px;
+        .month,.day,.year {
+            display: block;
+            padding: 5px;
+            text-align: center;
+            border-bottom: 1px solid $color-tertiary;
+        }
+        .day {
+            font-weight: bold;
+            font-size: 120%;
+        }
+        .year {
+            border-bottom:none;
+        }
+    }
+    //image
+    .post-thumbnail {
+        display: block;
+        margin-bottom: 5px;
+     }
+    //post title
+    .entry-title {
+        font-size: 2.6rem;
+        margin-bottom: 10px;
+        font-weight: 400;
+    }
+    //meta
+    .entry-meta {
+        color: $color-quaternary;
+        margin-top: -5px;
+        margin-bottom: 15px;
+        text-align: left;
+        font-size: 1.4rem;
+        text-transform: lowercase;
+        a {
+            color: $color-quaternary;
+            border: 1px solid $color-tertiary;
+            margin-right: 10px;
+            padding: 2px 6px;
+
+        }
+        .material-icons {
+            font-size: 1rem;
+            margin: 0 5px;
+        }
+    }
+    .more-tag {
+        text-transform: uppercase;
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+}

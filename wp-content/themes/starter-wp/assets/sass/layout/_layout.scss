@@ -1,0 +1,142 @@
+.text-center {
+    text-align: center;
+}
+.col-container {
+    @include center();
+}
+@media screen and (min-width: 37.5em) {
+    .col-two-cycle {
+        @include column(1/2, $cycle: 2);
+    }
+    .col-three-cycle {
+        @include column(1/3, $cycle: 3);
+    }
+    .col-four-cycle {
+        @include column(1/4, $cycle: 4);
+    }
+    .col-one-third {
+        @include column(1/4, $gutter:0);
+    }
+    .col-two-third {
+        @include column(3/4, $gutter:0);
+    }
+    .col-half {
+        @include column(1/2, $gutter:0 );
+    }
+    //CONTENT
+    .sidebar-left {
+        .content-area {
+            &.col-two-third { 
+               float: right;
+               border-right: 0;
+               padding-left: 50px;
+               padding-right: 0;
+            }
+        }
+        .widget-area {
+            &.col-one-third { 
+                float: left;
+                padding-right: 50px;
+                padding-left: 0;
+            }
+        }
+    }
+    .content-area {
+        &.col-two-third { 
+           padding-right: 50px;
+        }
+    }
+    .widget-area {
+        &.col-one-third { 
+            padding-left: 50px;
+        }
+    }
+    //FEATURES
+    .features {
+        .col-four {
+            .feature {
+                 @include column(1/4, $cycle: 4);
+            }
+        }
+        .col-three {
+            .feature {
+                 @include column(1/3, $cycle: 3);
+            }
+        }
+        .col-two {
+            .feature {
+                 @include column(1/2, $cycle: 2);
+            }
+        }
+    }
+}
+.content-wrap {
+    padding: 0 25px;
+}
+.widget-area,
+.content-area {
+    padding-bottom: 60px;
+    padding-top: 60px;
+}
+
+//HEADER
+.top-header {
+    .col-container {
+        padding: 0 25px;
+    }
+    .social-url {
+        float: right;
+        display: inline-block;
+    }
+    .header-nav {
+        float: left;
+        display: inline-block;
+        a {
+            margin-left: 5px;
+        }
+    }
+}
+.main-nav {
+    .branding {
+        padding: 25px 0 15px 25px;
+        
+    }
+    .slimmenu {
+        float: right;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        margin-right: 9px;
+    }
+    .mnenu-collapser {
+         margin-right: 25px;
+         margin-left: 25px;
+    }
+}
+
+//POSTS
+.archive, .home, .blog {
+    .type-post {
+        @media screen and (min-width: 37.5em) {
+            @include column(1/2, $cycle: 2, $gutter: 5.5);
+        }
+    }
+}
+@media screen and (max-width: 37.5em) { 
+    .top-header,
+    .site-hedaer,
+    .site-branding,
+    .top-header .social-url,
+    .top-header .header-nav {
+        float: none;
+        text-align: center;
+    }
+    .hero {
+        padding: 20px 25px 60px 25px!important;
+        h2.title {
+            font-size: 6.5rem!important;
+        }
+        .text {
+            font-size: 2.5rem!important;
+        }
+    }
+}
