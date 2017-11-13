@@ -1,6 +1,6 @@
 <?php
 /*
- 	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, http://wpcerber.com
+ 	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, https://wpcerber.com
 
     Licenced under the GNU GPL
 
@@ -47,8 +47,9 @@ function cerber_tools_page() {
 
 			echo '<a href="' . cerber_admin_link('imex') . '" class="nav-tab ' . ( $tab == 'imex' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-generic"></span> ' . __('Export & Import') . '</a>';
 			echo '<a href="' . cerber_admin_link('diagnostic') . '" class="nav-tab ' . ( $tab == 'diagnostic' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-tools"></span> ' . __('Diagnostic') . '</a>';
-			//echo '<a href="' . cerber_admin_link('license') . '" class="nav-tab ' . ( $tab == 'license' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-id-alt"></span> ' . __('License') . '</a>';
+			echo '<a href="' . cerber_admin_link('license') . '" class="nav-tab ' . ( $tab == 'license' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-id-alt"></span> ' . __('License') . '</a>';
 
+			echo lab_indicator();
             ?>
         </h2>
 

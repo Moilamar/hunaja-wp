@@ -1,6 +1,6 @@
 <?php
 /*
- 	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, http://wpcerber.com
+ 	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, https://wpcerber.com
 
     Licenced under the GNU GPL.
 
@@ -322,7 +322,12 @@ function cerber_is_rest_url(){
 		return $cache;
 	}
 
-	if (false !== strpos($_SERVER['REQUEST_URI'], rest_get_url_prefix()) || false !== strpos($_SERVER['REQUEST_URI'], '?rest_route=')){
+	if ( isset( $_REQUEST['rest_route'] ) ) {
+		$cache = true;
+		return true;
+	}
+
+	if ( 0 === strpos( trim( $_SERVER['REQUEST_URI'], '/' ) . '/', rest_get_url_prefix() . '/' ) ) {
 		if (0 === strpos(get_home_url().urldecode($_SERVER['REQUEST_URI']),get_rest_url())) {
 			$cache = true;
 			return true;
@@ -334,7 +339,7 @@ function cerber_is_rest_url(){
 }
 
 /**
- * Is requested REST API namespace is whitelisted
+ * Is requested REST API namespace whitelisted
  *
  * @return bool
  */
@@ -359,7 +364,11 @@ function cerber_is_route_allowed() {
 
 	return false;
 }
-
+/**
+ * Is requested REST API route blocked (not allowed)
+ *
+ * @return bool
+ */
 function cerber_is_route_blocked() {
 	global $wp_cerber;
 	if ( $wp_cerber->getSettings( 'stopenum' ) ) {
@@ -376,12 +385,14 @@ function crb_get_rest_path() {
 	if ( isset( $ret ) ) {
 		return $ret;
 	}
-	if ( get_option( 'permalink_structure' ) ) {
-		$pos = strlen( rest_get_url_prefix() ) + 2;
-		$ret = substr( $_SERVER['REQUEST_URI'], $pos );
-	}
-	else {
+
+	if (isset($_REQUEST['rest_route'])){
 		$ret = ltrim( $_REQUEST['rest_route'], '/' );
+	}
+	elseif ( get_option( 'permalink_structure' ) ) {
+		$pos = strlen( get_rest_url() );
+		$ret = substr( get_home_url() . urldecode( $_SERVER['REQUEST_URI'] ), $pos );
+		$ret = trim( $ret, '/' );
 	}
 
 	return $ret;
@@ -474,12 +485,16 @@ function cerber_get_labels($type = 'activity'){
 		// @since 4.9
 		//$labels[15]=__('by Cerber Lab','wp-cerber');
 		$labels[15] = __( 'Malicious activity detected', 'wp-cerber' );
-		if ( lab_lab() ) {
-			$labels[16] = __( 'Blocked by country rule', 'wp-cerber' );
-		}
+		$labels[16] = __( 'Blocked by country rule', 'wp-cerber' );
+		$labels[17] = __( 'Limit reached', 'wp-cerber' );
+		$labels[18] = __( 'Multiple suspicious activities', 'wp-cerber' );
 	}
 
 	return $labels;
+}
+
+function crb_black_activities() {
+	return array( 16, 17, 40, 50, 51, 52 );
 }
 
 function cerber_get_reason($id){
@@ -491,18 +506,10 @@ function cerber_get_reason($id){
 	$labels[4]= __('Attempt to log in with prohibited username','wp-cerber');
 	$labels[5]=	__('Limit on failed reCAPTCHA verifications is reached','wp-cerber');
 	$labels[6]=	__('Bot activity is detected','wp-cerber');
+	$labels[7]=	__('Multiple suspicious activities were detected','wp-cerber');
 
 	if (isset($labels[$id])) $ret = $labels[$id];
 	return $ret;
-}
-
-function cerber_admin_info($msg, $type = 'normal'){
-	$assets_url = plugin_dir_url(CERBER_FILE).'assets';
-	update_site_option('cerber_admin_info',
-		'<table><tr><td><img style="float:left; margin-left:-10px;" src="'.$assets_url.'/icon-128x128.png"></td>'.
-		'<td>'.$msg.
-		'<p style="text-align:right;">
-		<input type="button" class="button button-primary cerber-dismiss" value=" &nbsp; OK &nbsp; "/></p></td></tr></table>');
 }
 
 function cerber_db_error_log($msg = null){
@@ -517,7 +524,7 @@ function cerber_db_error_log($msg = null){
 /**
  * Save admin error message for further displaying
  *
- * @param string $msg
+ * @param string|array $msg
  */
 function cerber_admin_notice($msg){
 	if (!$msg) return;

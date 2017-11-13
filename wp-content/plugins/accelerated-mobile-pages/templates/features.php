@@ -104,6 +104,8 @@
 	94. OneSignal Push Notifications
 	95. Modify menu link attributes for SiteNavigationElement Schema Markup #1229 #1345
 	96. ampforwp_is_front_page() ampforwp_is_home() and ampforwp_is_blog is created
+	97. Change the format of the post date on Loops #1384 
+	98. Create Dynamic url of amp according to the permalink structure #1318
 */
 // Adding AMP-related things to the main theme
 	global $redux_builder_amp;
@@ -239,7 +241,6 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 	    } else {
 	      $amp_url = amp_get_permalink( get_queried_object_id() );
 	    }
-
         global $post;
         $ampforwp_amp_post_on_off_meta = get_post_meta( get_the_ID(),'ampforwp-amp-on-off',true);
         if(  is_singular() && $ampforwp_amp_post_on_off_meta === 'hide-amp' ) {
@@ -276,21 +277,39 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 				$amp_url = untrailingslashit($current_search_url);
 			}
 
-			// WPML AMPHTML #1285
-			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			if(is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' )){
-			          Global $sitepress_settings;
-			          if($sitepress_settings[ 'language_negotiation_type' ] == 3){
-			              $wpml_url =get_permalink( get_queried_object_id() );
-			              $explode_url = explode('/', $wpml_url);
-			              $append_amp = 'amp';
-			              array_splice( $explode_url, 5, 0, $append_amp );
-			              $impode_url = implode('/', $explode_url);
-			              $amp_url = untrailingslashit($impode_url);
-			          }
-			        }
-			
 			$amp_url = ampforwp_url_purifier($amp_url);
+
+
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			if( get_option('permalink_structure') && is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' )){
+				global $sitepress_settings, $wp;
+				if($sitepress_settings[ 'language_negotiation_type' ] == 3){
+				  	if( is_singular() ){
+						$wpml_url =get_permalink( get_queried_object_id() );
+						$explode_url = explode('/', $wpml_url);
+						$append_amp = 'amp';
+						array_splice( $explode_url, 5, 0, $append_amp );
+						$impode_url = implode('/', $explode_url);
+						$amp_url = untrailingslashit($impode_url);
+				    }
+				    if ( is_home()  || is_archive() ){
+				        global $wp;
+				        $current_archive_url = home_url( $wp->request );
+						$explode_path  	= explode("/",$current_archive_url);
+						$inserted 		= array(AMPFORWP_AMP_QUERY_VAR);
+						$query_arg_array = $wp->query_vars;
+						if( array_key_exists( 'paged' , $query_arg_array ) ) {
+							array_splice( $explode_path, -3, 0, $inserted );
+						}
+						else{
+							array_splice( $explode_path, -1, 0, $inserted );
+						}
+						$impode_url = implode('/', $explode_path);
+						$amp_url = $impode_url;
+				    }
+				}
+			}
+
 	        $amp_url = apply_filters('ampforwp_modify_rel_canonical',$amp_url);
 
 	        if( $supported_amp_post_types) {					
@@ -452,6 +471,12 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 					}
 				}
 			}
+		// Facebook Like Script
+		if( isset($redux_builder_amp['ampforwp-facebook-like-button'] ) && true == $redux_builder_amp['ampforwp-facebook-like-button'] && is_single() ){
+			if(empty($data['amp_component_scripts']['amp-facebook-like'])){
+				$data['amp_component_scripts']['amp-facebook-like'] = 'https://cdn.ampproject.org/v0/amp-facebook-like-0.1.js';
+			}
+		}
 		return $data;
 	}	
 
@@ -512,7 +537,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 
 		function ampforwp_header_advert() {
 			global $redux_builder_amp;
-
+			$optimize = '';
+			$optimize = ampforwp_ad_optimize();
 			if($redux_builder_amp['enable-amp-ads-1'] == true) {
 				if($redux_builder_amp['enable-amp-ads-select-1'] == 1)  {
 					$advert_width  = '300';
@@ -538,7 +564,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 	      		}
 				$output = '<div class="amp-ad-wrapper amp_ad_1">';
 				$output	.=	'<amp-ad class="amp-ad-1"
-							type="adsense"
+							type="adsense" '. $optimize .'
 							width='. $advert_width .' height='. $advert_height . '
 							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-1'].'"
 							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-1'] .'">';
@@ -553,7 +579,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 
 		function ampforwp_footer_advert() {
 			global $redux_builder_amp;
-
+			$optimize = '';
+			$optimize = ampforwp_ad_optimize();
 			if($redux_builder_amp['enable-amp-ads-2'] == true) {
 				if($redux_builder_amp['enable-amp-ads-select-2'] == 1)  {
 					$advert_width  = '300';
@@ -579,7 +606,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 	      		}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-2"
-							type="adsense"
+							type="adsense" '. $optimize .'
 							width='. $advert_width .' height='. $advert_height . '
 							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-2'].'"
 							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-2'] .'">';
@@ -595,7 +622,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 
 		function ampforwp_before_post_content_advert() {
 			global $redux_builder_amp;
-
+			$optimize = '';
+			$optimize = ampforwp_ad_optimize();
 			if($redux_builder_amp['enable-amp-ads-3'] == true) {
 				if($redux_builder_amp['enable-amp-ads-select-3'] == 1)  {
 					$advert_width  = '300';
@@ -621,7 +649,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 	      		}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-3"
-							type="adsense"
+							type="adsense" '. $optimize .'
 							width='. $advert_width .' height='. $advert_height . '
 							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-3'].'"
 							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-3'] .'">';
@@ -637,7 +665,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 		//	add_action('ampforwp_inside_post_content_after','ampforwp_after_post_content_advert');
 		function ampforwp_after_post_content_advert() {
 			global $redux_builder_amp;
-
+			$optimize = '';
+			$optimize = ampforwp_ad_optimize();
 			if($redux_builder_amp['enable-amp-ads-4'] == true) {
 				if($redux_builder_amp['enable-amp-ads-select-4'] == 1)  {
 					$advert_width  = '300';
@@ -663,7 +692,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 	      		}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-4"
-							type="adsense"
+							type="adsense" '. $optimize .'
 							width='. $advert_width .' height='. $advert_height . '
 							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-4'].'"
 							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-4'] .'">';
@@ -680,7 +709,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 
 		function ampforwp_below_the_title_advert() {
 			global $redux_builder_amp;
-
+			$optimize = '';
+			$optimize = ampforwp_ad_optimize();
 			if($redux_builder_amp['enable-amp-ads-5'] == true) {
 				if($redux_builder_amp['enable-amp-ads-select-5'] == 1)  {
 					$advert_width  = '300';
@@ -706,7 +736,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 						}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-5"
-							type="adsense"
+							type="adsense" '. $optimize .'
 							width='. $advert_width .' height='. $advert_height . '
 							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-5'].'"
 							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-5'] .'">';
@@ -724,7 +754,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 
 		function ampforwp_above_related_post_advert() {
 			global $redux_builder_amp;
-
+			$optimize = '';
+			$optimize = ampforwp_ad_optimize();
 			if($redux_builder_amp['enable-amp-ads-6'] == true) {
 				if($redux_builder_amp['enable-amp-ads-select-6'] == 1)  {
 					$advert_width  = '300';
@@ -750,7 +781,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 						}
 				$output = '<div class="amp-ad-wrapper">';
 				$output	.=	'<amp-ad class="amp-ad-6"
-							type="adsense"
+							type="adsense" '. $optimize .'
 							width='. $advert_width .' height='. $advert_height . '
 							data-ad-client="'. $redux_builder_amp['enable-amp-ads-text-feild-client-6'].'"
 							data-ad-slot="'.  $redux_builder_amp['enable-amp-ads-text-feild-slot-6'] .'">';
@@ -760,7 +791,17 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 			}
 		}
 
-
+	// Ads Optimize For Viewability
+	if( !function_exists('ampforwp_ad_optimize')){
+		function ampforwp_ad_optimize(){
+			global $redux_builder_amp;
+			$optimized_code = '';
+			if( isset( $redux_builder_amp['ampforwp-ads-data-loading-strategy'] ) && true == $redux_builder_amp['ampforwp-ads-data-loading-strategy']){
+				$optimized_code = 'data-loading-strategy="prefer-viewability-over-views"';
+			}
+			return $optimized_code;
+		}
+	} 
 	// 10. Analytics Area
 		add_action('amp_post_template_footer','ampforwp_analytics',11);
 		function ampforwp_analytics() {
@@ -995,17 +1036,8 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 				  $content = preg_replace('/readability=[^>]*/', '', $content);
 				  // removing color from span tag
 				  $content = preg_replace('/<span(.*?)(color=".*?")(.*?)>/', '<span$1$3>', $content);
-				  // removing sl-processed form anchor tag
-				  $content = preg_replace('/<a (href=".*?")(.*?)(target=".*?")(.*?)(sl-processed=".*?")>/', '<a $1$3>', $content);
-				  $content = preg_replace('/<a (href=".*?")(.*?)(rel=".*?")(.*?)(sl-processed=".*?")>/', '<a $1$3>', $content);
-				  // Removing text-align, center, font-size from the a tag
-				  $content = preg_replace('/<a (href=".*?")(.*?)(rel=".*?").*?(text-align:=".*?").*?(center=".*?").*?(font-size:=".*?")>/', '<a $1 $3>', $content);
-				  // Removing _blank="" from the a tag
-				  $content = preg_replace('/<a (href=".*?")(.*?)(_blank=".*?")>/', '<a $1 $2>', $content);
-				   // removing text-align:center from p tag
-				  $content = preg_replace('/<p(.*?)(text-align:=".*?")(.*?)(center=".*?")(.*?)>/', '<p$1$5>', $content);
-				  // removing paraid, paraeid from p tag
-				   $content = preg_replace('/<p(.*?)(class=".*?")(.*?)paraid=".*?" paraeid=".*?">/', '<p$1$2>', $content);
+				  // removing sl-processed attribute
+				  $content = preg_replace('/(<[^>]+) sl-processed=".*?"/', '$1', $content);
 
 				return $content;
 		}
@@ -1024,7 +1056,7 @@ define('AMPFORWP_COMMENTS_PER_PAGE',  ampforwp_define_comments_number() );
 		}
 
 	// 11.5 Strip unwanted codes the_content of Frontpage
-    add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_frontpage');
+   // add_action( 'pre_amp_render_post','ampforwp_strip_invalid_content_frontpage');
         function ampforwp_strip_invalid_content_frontpage(){
             if ( is_front_page() || is_home() ) {
 			add_filter( 'the_content', 'ampforwp_the_content_filter_frontpage', 20 );
@@ -1182,7 +1214,14 @@ function ampforwp_title_custom_meta() {
 
     $post_types = ampforwp_get_all_post_types();
 
-    if ( $post_types ) { // If there are any custom public post types.
+    $user_level = '';
+    $user_level = current_user_can( 'manage_options' );
+
+    if (  isset( $redux_builder_amp['amp-meta-permissions'] ) && $redux_builder_amp['amp-meta-permissions'] == 'all' ) {
+    	$user_level = true;
+    }
+
+    if ( $post_types && $user_level ) { // If there are any custom public post types.
 
         foreach ( $post_types  as $post_type ) {
 
@@ -1292,7 +1331,14 @@ function ampforwp_mobile_redirection() {
   	global $redux_builder_amp;
     $post_types = ampforwp_get_all_post_types();
 
-    if ( $post_types ) { // If there are any custom public post types.
+    $user_level = '';
+    $user_level = current_user_can( 'manage_options' );
+
+    if (  isset( $redux_builder_amp['amp-meta-permissions'] ) && $redux_builder_amp['amp-meta-permissions'] == 'all' ) {
+    	$user_level = true;
+    }
+
+    if ( $post_types && $user_level ) { // If there are any custom public post types.
 
         foreach ( $post_types  as $post_type ) {
 
@@ -1581,6 +1627,8 @@ function ampforwp_remove_schema_data() {
 		remove_filter('the_content', 'sfsi_social_buttons_below');
 	// Removing WordPress Social Share Buttons #1272
     	remove_filter ('the_content', 'FTGSB');
+    // Jannah Theme Lazy Load Compatibility
+    	remove_filter( 'wp_get_attachment_image_attributes', 'jannah_lazyload_image_attributes', 8, 3 );
 }
 
 // 22. Removing author links from comments Issue #180
@@ -3850,7 +3898,7 @@ function ampforwp_supported_post_types($supported_types){
 global $redux_builder_amp;
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 				if( is_plugin_active( 'amp-custom-post-type/amp-custom-post-type.php' ) ) {					
-					if ( $redux_builder_amp['ampforwp-custom-type'] ) {
+					if ( isset($redux_builder_amp['ampforwp-custom-type']) && $redux_builder_amp['ampforwp-custom-type'] ) {
 						foreach($redux_builder_amp['ampforwp-custom-type'] as $custom_post){
 							$supported_types[] = $custom_post;
 						}
@@ -3895,15 +3943,15 @@ function is_category_amp_disabled(){
 
 add_action( 'admin_bar_menu', 'ampforwp_visit_amp_in_admin_bar',999 );
  
-function ampforwp_visit_amp_in_admin_bar($admin_bar) {         
-          $args = array(
-                'parent' => 'site-name',
-                'id'     => 'view-amp',
-                'title'  => 'Visit AMP',
-                'href'   => user_trailingslashit(get_home_url().'/'.AMP_QUERY_VAR),
-                'meta'   => false
-            );
-            $admin_bar->add_node( $args );       
+function ampforwp_visit_amp_in_admin_bar($admin_bar) {
+	$args = array(
+	    'parent' => 'site-name',
+	    'id'     => 'view-amp',
+	    'title'  => 'Visit AMP',
+	    'href'   => ampforwp_url_controller( get_home_url() ),
+	    'meta'   => false
+	);
+	$admin_bar->add_node( $args );       
 }
 
 // Things to be added in the Body Tag #1064
@@ -4380,17 +4428,87 @@ add_filter('amp_gallery_images','ampforwp_new_gallery_images', 10, 2);
 function ampforwp_new_gallery_images($images, $image){
 	//Check if the attachment has caption or not
 	if(isset($image['caption']) && $image['caption'] != '' ){
+		add_filter('amp_post_template_data','ampforwp_carousel_bind_script');
+		add_action('amp_post_template_css', 'ampforwp_additional_style_carousel_caption');
+		// To enable the carousel magic
+		add_action('ampforwp_after_header','ampforwp_carousel_class_magic', 999, 1);
+		add_action('below_the_header_design_1','ampforwp_carousel_class_magic', 999, 1);
 		$caption = $image['caption'];
-		$figcaption = '<p class="wp-caption-text">'. wp_kses_data( $caption ) . '</p>';
 		// Append the caption with image
-		return '<div class="ampforwp-gallery-item">'. $images . $figcaption .'</div>';
+		return '<figure><div class="ampforwp-gallery-item amp-carousel-container">'. $images . ' </div><figcaption :openbrack:class:closebrack:="expanded? \'expanded\' : \'\'" on="tap:AMP.setState({expanded: !expanded})" tabindex="0" role="button" >'. wp_kses_data( $caption ) . '<span :openbrack:text:closebrack:="expanded ? \'less\' : \'more\'">more</span> </figcaption></figure>';
 	}
 	else{
 		// If there is no caption
-		return '<div class="ampforwp-gallery-item">'. $images . '</div>';
+		return '<div class="ampforwp-gallery-item amp-carousel-container">'. $images . '</div>';
 	}
 }
-
+if( ! function_exists( 'ampforwp_additional_style_carousel_caption' ) ){
+	function ampforwp_additional_style_carousel_caption(){ ?>
+    .collapsible-captions {--caption-height: 32px; --image-height: 100%; --caption-padding:1rem; --button-size: 28px; --caption-color: #f5f5f5;; --caption-bg-color: #111;}
+    .collapsible-captions * {
+      /* disable chrome touch highlight */
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      box-sizing: border-box;
+    }
+    .collapsible-captions .amp-carousel-container  {position: relative; width: 100%;}
+    .collapsible-captions amp-img img {object-fit: contain; }
+    .collapsible-captions figure { margin: 0; padding: 0; }
+    /* single line caption */
+    .collapsible-captions figcaption { position: absolute; bottom: 0;width: 100%;
+      /* inital height is one line */
+      max-height: var(--caption-height);
+      line-height: var(--caption-height);
+      padding: 0 var(--button-size) 0 5px;
+      /* cut text after first line and show an ellipsis */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      /* animate expansion */
+      transition: max-height 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      /* overlay the carousel icons */
+      z-index: 1000;
+      /* some styling */
+      color: var(--caption-color);
+      background: rgba(0, 0, 0, 0.6);    
+    }
+    /* expanded caption */
+    .collapsible-captions figcaption.expanded {
+      /* add padding and show all of the text */
+      line-height: inherit;
+      white-space: normal;
+      text-overflow: auto;
+      max-height: 100px;
+      /* show scrollbar in case caption is larger than image */
+      overflow: auto;
+    }
+    /* don't show focus highlights in chrome */
+    .collapsible-captions figcaption:focus { outline: none; border: none; }
+    /* the expand/collapse icon */
+    .collapsible-captions figcaption span { display: block; position: absolute;
+      top: calc((var(--caption-height) - var(--button-size)) / 2);
+      right: 2px; width: var(--button-size); height: var(--button-size);
+      line-height: var(--button-size); text-align: center; font-size: 12px; color: inherit;
+      cursor: pointer; }
+	figcaption{ margin-bottom: 20px; }
+<?php }
+ }
+// amp-bind for carousel with captions
+if( !function_exists('ampforwp_carousel_bind_script')){
+	function ampforwp_carousel_bind_script($data){
+		if ( empty( $data['amp_component_scripts']['amp-bind'] ) ) {
+			$data['amp_component_scripts']['amp-bind'] = 'https://cdn.ampproject.org/v0/amp-bind-0.1.js';
+		}	
+	return $data;
+	}
+}
+if( !function_exists( 'ampforwp_carousel_class_magic' ) ){
+	function ampforwp_carousel_class_magic($data){
+		$content = $data->get('post_amp_content');
+		$content = str_replace(array(':openbrack:',':closebrack:'), array('[',']'), $content);
+		$data->set('post_amp_content',$content);
+		return $data;
+	}
+}
 // 86. minify the content of pages
 add_filter('ampforwp_the_content_last_filter','ampforwp_minify_html_output');
 function ampforwp_minify_html_output($content_buffer){
@@ -4479,7 +4597,9 @@ if( !function_exists('ampforwp_has_post_thumbnail')){
 			return true;
 		}
 		elseif(isset($redux_builder_amp['ampforwp-featured-image-from-content']) && $redux_builder_amp['ampforwp-featured-image-from-content'] == true){
-			return true;
+			if( ampforwp_get_featured_image_from_content() || ampforwp_get_featured_image_from_content('url') ){				
+				return true;
+			}
 		}
 		else
 			return false;
@@ -4700,7 +4820,7 @@ if( ! function_exists( ' ampforwp_onesignal_notifications ' ) ){
 		// HTTPS sites
 		$onesignal_domain 		= trailingslashit( esc_url( home_url() ) ) ;
 		$onesignal_app_id		= $redux_builder_amp['ampforwp-one-signal-app-id'];
-		$helper_iframe_url = $onesignal_domain .'amphtml-helper-frame.html?appId=' . $onesignal_app_id;
+		$helper_iframe_url = $onesignal_domain .'amp-helper-frame.html?appId=' . $onesignal_app_id;
 
 		$permission_dialog_url = $onesignal_domain .'amp-permission-dialog.html?appId=' . $onesignal_app_id;
 
@@ -4739,12 +4859,14 @@ if( ! function_exists(' ampforwp_onesignal_notifications_widget') ){
 		             layout="fixed"
 		             src="data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ic3Vic2NyaWJlLWljb24iIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMS44NCAxOS44ODdIMS4yMnMtLjk0Ny0uMDk0LS45NDctLjk5NWMwLS45LjgwNi0uOTQ4LjgwNi0uOTQ4czMuMTctMS41MTcgMy4xNy0yLjYwOGMwLTEuMDktLjUyLTEuODUtLjUyLTYuMzA1czIuODUtNy44NyA2LjI2LTcuODdjMCAwIC40NzMtMS4xMzQgMS44NS0xLjEzNCAxLjMyNSAwIDEuOCAxLjEzNyAxLjggMS4xMzcgMy40MTMgMCA2LjI2IDMuNDE4IDYuMjYgNy44NyAwIDQuNDYtLjQ3NyA1LjIyLS40NzcgNi4zMSAwIDEuMDkgMy4xNzYgMi42MDcgMy4xNzYgMi42MDdzLjgxLjA0Ni44MS45NDdjMCAuODUzLS45OTYuOTk1LS45OTYuOTk1SDExLjg0ek04IDIwLjk3N2g3LjExcy0uNDkgMi45ODctMy41MyAyLjk4N1M4IDIwLjk3OCA4IDIwLjk3OHoiIGZpbGw9IiNGRkYiLz48L3N2Zz4=">
 		    </amp-img>
-		    Subscribe to updates
+		    <?php echo ampforwp_translation( $redux_builder_amp['ampforwp-onesignal-translator-subscribe'], 'Subscribe to updates' ); ?>
 		  </button>
 		</amp-web-push-widget>
 		<!-- An unsubscription widget -->
 		<amp-web-push-widget visibility="subscribed" layout="fixed" width="230" height="45">
-		   <button class="unsubscribe" on="tap:amp-web-push.unsubscribe">Unsubscribe from updates</button>
+		   <button class="unsubscribe" on="tap:amp-web-push.unsubscribe">
+		   	<?php echo ampforwp_translation( $redux_builder_amp['ampforwp-onesignal-translator-unsubscribe'], 'Unsubscribe from updates' ); ?>
+		   </button>
 		</amp-web-push-widget>
 	<?php }
 	}
@@ -4838,4 +4960,30 @@ function ampforwp_is_blog(){
   $get_blog_details = ampforwp_get_blog_details();
 
   return $get_blog_details ;
+}
+// 97. Change the format of the post date on Loops #1384
+add_filter('ampforwp_modify_post_date', 'ampforwp_full_post_date_loops');
+if( ! function_exists( 'ampforwp_full_post_date_loops' ) ){
+	function ampforwp_full_post_date_loops($date){
+		global $redux_builder_amp;
+		if(isset($redux_builder_amp['ampforwp-full-post-date']) && true == $redux_builder_amp['ampforwp-full-post-date'] ){
+			$date =  get_the_date();
+		}
+	return $date;
+	}
+}
+
+// 98. Create Dynamic url of amp according to the permalink structure #1318
+function ampforwp_url_controller($url){
+	$new_url 					= "";
+	$get_permalink_structure 	=  "";
+
+	$get_permalink_structure = get_option('permalink_structure');
+	if ( $get_permalink_structure ) {
+		$new_url = user_trailingslashit( trailingslashit( $url ) . AMPFORWP_AMP_QUERY_VAR);
+	} else {
+		$new_url = add_query_arg( 'amp', '1', $url );
+	}
+
+	return esc_url( $new_url );
 }

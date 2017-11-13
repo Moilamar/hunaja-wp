@@ -1,6 +1,6 @@
 <?php
 /*
- 	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, http://wpcerber.com
+ 	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, https://wpcerber.com
 
     Licenced under the GNU GPL.
 
@@ -40,7 +40,7 @@ function cerber_push_the_news( $version ) {
 	$news['3.0'] =
 		'<h3>Welcome a new version with reCAPTCHA and WordPress filters</h3>
 <ul>
- 	<li>Now you can use Google reCAPTCHA to protect WordPress registration form from spam registrations. Also reCAPTCHA available for lost password and login forms. <a href="http://wpcerber.com/how-to-setup-recaptcha/">How to setup reCAPTCHA</a>.</li>
+ 	<li>Now you can use Google reCAPTCHA to protect WordPress registration form from spam registrations. Also reCAPTCHA available for lost password and login forms. <a href="https://wpcerber.com/how-to-setup-recaptcha/">How to setup reCAPTCHA</a>.</li>
  	<li>The registration process, WordPress registration form, XML-RPC, WP REST API are controlled by <a href="http://wpcerber.com/using-ip-access-lists-to-protect-wordpress/">IP Access Lists</a>.</li>
  	<li>Registration is impossible if a particular IP address is locked out.</li>
  	<li>Registration with a prohibited username is impossible.</li>
@@ -102,7 +102,7 @@ function cerber_push_the_news( $version ) {
 
 		$text .= '<ul><li>'.implode('</li><li>', $news[ $version ]).'</li></ul>';
 
-		$text .= '	<p style="margin-top: 18px;"><a href="http://wpcerber.com/security/releases/" target="_blank">Change log</a></p>';
+		$text .= '	<p style="margin-top: 18px;"><a href="https://wpcerber.com/security/releases/" target="_blank">Change log</a></p>';
 
 		$text .= '	<p style="margin-top: 24px;"><span class="dashicons-before dashicons-email-alt"></span> &nbsp; <a href="http://wpcerber.com/subscribe-newsletter/">Subscribe to Cerber\'s newsletter</a></p>
 					<p><span class="dashicons-before dashicons-twitter"></span> &nbsp; <a href="https://twitter.com/wpcerber">Follow Cerber on Twitter</a></p>
@@ -111,4 +111,17 @@ function cerber_push_the_news( $version ) {
 		cerber_admin_info( $text );
 	}
 }
+
+
+function cerber_admin_info($msg, $type = 'normal'){
+
+	$crb_assets_url = plugin_dir_url( CERBER_FILE ) . 'assets/';
+
+	update_site_option('cerber_admin_info',
+		'<table><tr><td><img style="float:left; margin-left:-10px;" src="'.$crb_assets_url.'icon-128x128.png"></td>'.
+		'<td>'.$msg.
+		'<p style="text-align:right;">
+		<input type="button" class="button button-primary cerber-dismiss" value=" &nbsp; OK &nbsp; "/></p></td></tr></table>');
+}
+
 

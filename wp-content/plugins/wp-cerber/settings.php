@@ -1,6 +1,6 @@
 <?php
 /*
-    Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, http://wpcerber.com
+    Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, https://wpcerber.com
 
     Licenced under the GNU GPL.
 
@@ -98,8 +98,9 @@ function cerber_settings_init(){
 	add_settings_field('stopenum',__('Stop user enumeration','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'stopenum','type'=>'checkbox','label'=>__('Block access to user pages like /?author=n and user data via REST API','wp-cerber')));
 	add_settings_field('xmlrpc',__('Disable XML-RPC','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'xmlrpc','type'=>'checkbox','label'=>__('Block access to the XML-RPC server (including Pingbacks and Trackbacks)','wp-cerber')));
 	add_settings_field('nofeeds',__('Disable feeds','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'nofeeds','type'=>'checkbox','label'=>__('Block access to the RSS, Atom and RDF feeds','wp-cerber')));
-	add_settings_field('norest',__('Disable REST API','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'norest','type'=>'checkbox','label'=>__('Block access to the WordPress REST API except the following namespaces','wp-cerber')));
-	add_settings_field('restwhite',__('REST API whitelist','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'restwhite','type'=>'textarea','label'=>__('Specify REST API namespaces to be allowed if REST API is disabled. One string per line.','wp-cerber')));
+	add_settings_field('norest',__('Disable REST API','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'norest','type'=>'checkbox','label'=>__('Block access to the WordPress REST API except the following','wp-cerber')));
+	add_settings_field('restauth', '','cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'restauth','type'=>'checkbox','label'=>__('Allow REST API for logged in users','wp-cerber')));
+	add_settings_field('restwhite', '','cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'restwhite','type'=>'textarea','label'=>__('Specify REST API namespaces to be allowed if REST API is disabled. One string per line.','wp-cerber')));
 	//add_settings_field('hashauthor',__('Hide author usernames','wp-cerber'),'cerberus_field_show',CERBER_OPT_H,'hwp',array('group'=>$tab,'option'=>'hashauthor','type'=>'checkbox','label'=>__('Replace author username with hash for author pages and URLs','wp-cerber')));
 	//add_settings_field('cleanhead',__('Clean up HEAD','wp-cerber'),'cerberus_field_show','cerber-'.$tab,'hwp',array('group'=>$tab,'option'=>'cleanhead','type'=>'checkbox','label'=>__('Remove generator and version tags from HEAD section','wp-cerber')));
 	//add_settings_field('ping',__('Disable Pingback','wp-cerber'),'cerberus_field_show','cerber-'.$tab,'hwp',array('group'=>$tab,'option'=>'ping','type'=>'checkbox','label'=>__('Block access to ping functional','wp-cerber')));
@@ -109,8 +110,10 @@ function cerber_settings_init(){
 	$tab='users'; // 'cerber-users' settings
 	register_setting( 'cerberus-'.$tab, CERBER_OPT_U);
 	add_settings_section('us', __('User related settings','wp-cerber'), 'cerber_sapi_section', CERBER_OPT_U);
+	if (lab_lab()) add_settings_field('reglimit',__('Registration limit','wp-cerber'),'cerberus_field_show', CERBER_OPT_U,'us',array('group'=>$tab,'option'=>'reglimit','type'=>'reglimit'));
 	add_settings_field('prohibited',__('Prohibited usernames','wp-cerber'),'cerberus_field_show',CERBER_OPT_U,'us',array('group'=>$tab,'option'=>'prohibited','type'=>'textarea','label'=>__('Usernames from this list are not allowed to log in or register. Any IP address, have tried to use any of these usernames, will be immediately blocked. Use comma to separate logins.','wp-cerber')));
 	add_settings_field('auth_expire',__('User session expire','wp-cerber'),'cerberus_field_show',CERBER_OPT_U,'us',array('group'=>$tab,'option'=>'auth_expire','type'=>'text','label'=>__('in minutes (leave empty to use default WP value)','wp-cerber'),'size' => 6));
+	add_settings_field('usersort',__('Sort users in dashboard','wp-cerber'),'cerberus_field_show',CERBER_OPT_U,'us',array('group'=>$tab,'option'=>'usersort','type'=>'checkbox','label'=>__('by date of registration','wp-cerber')));
 
 	// Antibot & reCAPTCHA -----------------------------------------------------------------------------
 
@@ -128,7 +131,7 @@ function cerber_settings_init(){
 	add_settings_field('botswhite',__('Query whitelist','wp-cerber'),'cerberus_field_show',CERBER_OPT_C,'antibot_more',array('group'=>$tab,'option'=>'botswhite','type'=>'textarea','label'=>__('Specify search strings to search in a request URI to exclude the request from inspection by the engine. One string per line.','wp-cerber')));
 
 	add_settings_section('commproc', __('Comment processing','wp-cerber'), 'cerber_sapi_section', CERBER_OPT_C);
-	add_settings_field('spamcomm',__('If a spam comment detected','wp-cerber'),'cerberus_field_show',CERBER_OPT_C,'commproc',array('group'=>$tab, 'option'=>'spamcomm', 'type'=>'select', 'set' => array('Deny it completely', 'Mark it as spam')));
+	add_settings_field('spamcomm',__('If a spam comment detected','wp-cerber'),'cerberus_field_show',CERBER_OPT_C,'commproc',array('group'=>$tab, 'option'=>'spamcomm', 'type'=>'select', 'set' => array(__('Deny it completely','wp-cerber'),__('Mark it as spam','wp-cerber'))));
 	add_settings_field('trashafter',__('Trash spam comments','wp-cerber'),'cerberus_field_show',CERBER_OPT_C,'commproc',array('group'=>$tab,'option'=>'trashafter','type'=>'text','enabled'=>__('Move spam comments to trash after'),'label'=>__('days','wp-cerber'),'size'=>3));
 	//add_settings_field('deleteafter',__('Delete comments from trash after','wp-cerber'),'cerberus_field_show',CERBER_OPT_C,'commproc',array('group'=>$tab,'option'=>'deleteafter','type'=>'text','label'=>__('days','wp-cerber'),'size'=>3));
 
@@ -176,7 +179,7 @@ function cerber_settings_init(){
 
 }
 /*
-	Generate HTML for every sections on a settings page
+	Generate HTML for each sections on a settings page
 */
 function cerber_sapi_section($args){
     switch ($args['id']){ // a section id
@@ -245,6 +248,7 @@ function cerber_settings_page(){
 
 			echo '<a href="' . cerber_admin_link('help') . '" class="nav-tab ' . ( $tab == 'help' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-editor-help"></span> ' . __('Help','wp-cerber') . '</a>';
 
+			echo lab_indicator();
 			?>
 		</h2>
 		<?php
@@ -363,6 +367,11 @@ function cerberus_field_show($args){
 				'<input type="text" id="attempts" name="cerber-'.$args['group'].'[attempts]" value="'.$settings['attempts'].'" size="3" maxlength="3" />',
 				'<input type="text" id="period" name="cerber-'.$args['group'].'[period]" value="'.$settings['period'].'" size="3" maxlength="3" />');
 			break;
+		case 'reglimit':
+			$html=sprintf(__('%s allowed registrations in %s minutes from one IP','wp-cerber'),
+				'<input type="text" id="reglimit-num" name="cerber-'.$args['group'].'[reglimit_num]" value="'.$settings['reglimit_num'].'" size="3" maxlength="3" />',
+				'<input type="text" id="reglimit-min" name="cerber-'.$args['group'].'[reglimit_min]" value="'.$settings['reglimit_min'].'" size="3" maxlength="3" />');
+			break;
 		case 'aggressive':
 			$html=sprintf(__('Increase lockout duration to %s hours after %s lockouts in the last %s hours','wp-cerber'),
 				'<input type="text" id="agperiod" name="cerber-'.$args['group'].'[agperiod]" value="'.$settings['agperiod'].'" size="3" maxlength="3" />',
@@ -370,7 +379,7 @@ function cerberus_field_show($args){
 				'<input type="text" id="aglast" name="cerber-'.$args['group'].'[aglast]" value="'.$settings['aglast'].'" size="3" maxlength="3" />');
 			break;
 		case 'notify':
-			$html= '<input type="checkbox" id="'.$args['option'].'" name="cerber-'.$args['group'].'['.$args['option'].']" value="1" '.checked(1,$value,false).$disabled.' /> '
+			$html= '<label class="switch"><input type="checkbox" id="'.$args['option'].'" name="cerber-'.$args['group'].'['.$args['option'].']" value="1" '.checked(1,$value,false).$disabled.' /><span class="slider round"></span></label>'
 			       .__('Notify admin if the number of active lockouts above','wp-cerber').
 			       ' <input type="text" id="above" name="cerber-'.$args['group'].'[above]" value="'.$settings['above'].'" size="3" maxlength="3" />'.
 			       ' (<a href="' . wp_nonce_url( add_query_arg( array( 'testnotify'       => 'lockout', 'settings-updated' => 0	) ), 'control', 'cerber_nonce' ) . '">' . __( 'Click to send test', 'wp-cerber' ) . '</a>)';
@@ -381,9 +390,9 @@ function cerberus_field_show($args){
 				'<input type="text" id="ciperiod" name="cerber-'.$args['group'].'[ciperiod]" value="'.$settings['ciperiod'].'" size="3" maxlength="3" />');
 			break;
 		case 'checkbox':
-			//$name = 'cerber-'.$args['group'].'['.$args['option'].']';
-			$html='<input type="checkbox" id="'.$args['option'].'" name="'.$name.'" value="1" '.checked(1,$value,false).$disabled.' />';
-			$html.= ' <label for="'.$args['option'].'">'.$args['label'].'</label>';
+            $html='<label class="switch"><input type="checkbox" id="'.$args['option'].'" name="'.$name.'" value="1" '.checked(1,$value,false).$disabled.' /><span class="slider round"></span></label>';
+			$html.= $args['label'];
+			//$html.= ' <label for="'.$args['option'].'">'.$args['label'].'</label>';
 			break;
 		case 'textarea':
 			//$name = 'cerber-'.$args['group'].'['.$args['option'].']';
@@ -418,7 +427,7 @@ function cerberus_field_show($args){
 		if ( isset( $settings[ $args['option'] . '-enabled' ] ) ) {
 			$value = $settings[ $args['option'] . '-enabled' ];
 		}
-		$checkbox = '<input type="checkbox" id="' . $args['option'] . '-enabled" name="' . $name . '" value="1" ' . checked( 1, $value, false ) . ' /> <label for="' . $args['option'] . '-enabled">' . $args['enabled'] . '</label> ';
+		$checkbox = '<label class="switch"><input type="checkbox" id="' . $args['option'] . '-enabled" name="' . $name . '" value="1" ' . checked( 1, $value, false ) . ' /><span class="slider round"></span></label>' . $args['enabled'];
         $html = $checkbox . $html;
     }
 
@@ -463,12 +472,18 @@ function cerber_sanitize_options($new, $old, $option) { // $option added in WP 4
 
 	if ( get_option( 'permalink_structure' ) ) {
 		$new['loginpath'] = urlencode( str_replace( '/', '', $new['loginpath'] ) );
+		$new['loginpath'] = sanitize_text_field($new['loginpath']);
 		if ( $new['loginpath'] && $new['loginpath'] != $old['loginpath'] ) {
 			$href = get_home_url() . '/' . $new['loginpath'] . '/';
 			$url  = urldecode( $href );
-			$msg  = __( 'Attention! You have changed the login URL! The new login URL is', 'wp-cerber' );
-			cerber_admin_notice( $msg . ': <a href="' . $href . '">' . $url . '</a>' );
-			cerber_send_notify( 'newlurl', $msg . ': ' . $url );
+			$msg = array();
+			$msg_e = array();
+			$msg[]  = __( 'Attention! You have changed the login URL! The new login URL is', 'wp-cerber' ) . ': <a href="' . $href . '">' . $url . '</a>';
+			$msg_e[]  = __( 'Attention! You have changed the login URL! The new login URL is', 'wp-cerber' ) . ': ' . $url;
+			$msg[]  = __( 'If you use a caching plugin, you have to add your new login URL to the list of pages not to cache', 'wp-cerber' );
+			$msg_e[]  = __( 'If you use a caching plugin, you have to add your new login URL to the list of pages not to cache', 'wp-cerber' );
+			cerber_admin_notice( $msg );
+			cerber_send_notify( 'newlurl', $msg_e );
 		}
 	} else {
 		$new['loginpath'] = '';
@@ -564,6 +579,10 @@ add_filter( 'pre_update_option_'.CERBER_OPT_H, 'cerber_sanitize_h', 10, 3 );
 function cerber_sanitize_h($new, $old, $option) {
 
     $new['restwhite'] = cerber_text2array($new['restwhite'], "\n");
+
+	$new['restwhite'] = array_map( function ( $v ) {
+		return trim( $v, '/' );
+	}, $new['restwhite'] );
 
     return $new;
 }
@@ -705,13 +724,17 @@ function cerber_get_defaults($field = null) {
 			'xmlrpc'   => 0,
 			'nofeeds'  => 0,
 			'norest'  => 1,
+			'restauth'  => 0,
 			'restwhite' => '',
 			'hashauthor'  => 0,
 			'cleanhead'  => 1,
 		),
 		CERBER_OPT_U => array(
+			'reglimit_num' => 3,
+			'reglimit_min' => 60,
 			'prohibited' => array(),
 			'auth_expire' => '',
+            'usersort'  => '',
 		),
 		CERBER_OPT_C => array(
 			'botscomm'  => 1,
@@ -757,6 +780,23 @@ function cerber_get_defaults($field = null) {
 		return $all_defaults;
 	}
 }
+
+/**
+ * Upgrade existing options with default values (for new fields).
+ *
+ */
+function cerber_upgrade_options() {
+	foreach ( cerber_get_defaults() as $option_name => $fields ) {
+		$values = get_site_option( $option_name );
+		foreach ( $fields as $field_name => $default ) {
+			if ( ! isset( $values[ $field_name ] ) ) {
+				$values[ $field_name ] = $default;
+			}
+		}
+		update_site_option( $option_name, $values );
+	}
+}
+
 
 /*
  *

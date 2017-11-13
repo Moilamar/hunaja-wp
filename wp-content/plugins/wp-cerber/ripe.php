@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, http://wpcerber.com
+	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, https://wpcerber.com
 
     Licenced under the GNU GPL.
 

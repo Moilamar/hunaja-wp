@@ -240,7 +240,7 @@ table tr:last-child td:last-child { -moz-border-radius-bottomright: 3px; -webkit
 table tr:hover td { background: #f2f2f2; background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0)); background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0); }
 .hide-meta-info{ display: none; }
 <?php }?>
-<?php if( $redux_builder_amp['amp-enable-notifications'] == 1 || $redux_builder_amp['ampforwp-cta-subsection-notification-sticky'] == 1 ){ ?>
+<?php if( $redux_builder_amp['amp-enable-notifications'] == 1 || isset($redux_builder_amp['ampforwp-cta-subsection-notification-sticky']) && $redux_builder_amp['ampforwp-cta-subsection-notification-sticky'] == 1 ){ ?>
 /* Notifications */
 #amp-user-notification1 p { display: inline-block; }
 amp-user-notification { padding: 5px; text-align: center; background: #fff; border-top: 1px solid; }
@@ -278,6 +278,7 @@ main .amp-archive-heading { direction:rtl }
 .comment-author { float:right; margin-left:5px; }
 .amp-ad-wrapper, .amp-wp-article amp-ad{ direction: ltr; }
 .toggle-navigationv2 ul li a { padding: 15px 8px; width: 95%;}
+amp-carousel{direction: ltr;}
 <?php } ?>
 .amp-wp-tax-tag a, a, .amp-wp-author, .headerlogo a, [class*=icono-] { color: <?php echo sanitize_hex_color( $header_background_color ); ?>;; }
 body a {color: <?php echo $redux_builder_amp['amp-opt-color-rgba-link-design2']['color'];?> }
@@ -327,4 +328,8 @@ amp-user-notification button { background-color:  <?php echo sanitize_hex_color(
 <?php } ?> 
 .amp-menu > li > a > amp-img, .sub-menu > li > a > amp-img { display: inline-block; margin-right: 4px; }
 .menu-item amp-img {width: 16px; height: 11px; display: inline-block; margin-right: 5px;}
-<?php echo $redux_builder_amp['css_editor']; } ?>
+.amp-carousel-container {position: relative;width: 100%;height: 100%;} 
+.amp-carousel-img img {object-fit: contain;}
+<?php // Ads (sitewide)
+if( ( isset($redux_builder_amp['enable-amp-ads-1'] ) && $redux_builder_amp['enable-amp-ads-1'] ) || ( isset($redux_builder_amp['enable-amp-ads-2'] ) && $redux_builder_amp['enable-amp-ads-2'] ) ){ ?> .amp-ad-wrapper{ text-align: center } .amp-ad-wrapper{ text-align: center; margin-left: -13px; } .amp-ad-wrapper, .amp-wp-article amp-ad{ direction: ltr; } .amp-ad-2{ margin-bottom: 50px; } .amp_home_body .amp_ad_1{ margin-top: 10px; margin-bottom: -20px; }<?php } 
+echo $redux_builder_amp['css_editor']; } ?>

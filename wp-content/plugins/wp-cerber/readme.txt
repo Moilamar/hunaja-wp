@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: security, login, custom login, protect, antispam, woocommerce, recaptcha, captcha, activity, log, logging, block, fail2ban, monitoring, rename wp login, whitelist, blacklist, wordpress security, xmlrpc, user enumeration, hardening, authentication, notification, pushbullet, brute force, bruteforce, users
 Requires at least: 4.4
 Requires PHP: 5.3
-Tested up to: 4.8.1
-Stable tag: 5.5
+Tested up to: 4.9
+Stable tag: 5.7
 License: GPLv2
 
 Protection against hacker attacks and bots. Restrict access with IP access lists, track user and bot activity. reCAPTCHA. Limit login attempts.
@@ -26,7 +26,7 @@ Hardening WordPress with a set of security settings.
 * Create **Custom login URL** ([rename wp-login.php](http://wpcerber.com/how-to-rename-wp-login-php/)).
 * Cerber antispam engine for protecting any contact form. Automatically detects and moves spam comments to trash or deny it completely.
 * Log user, bot and hacker activities.
-* Cool notifications with powerful filters.
+* Cool notifications with powerful filters for activities.
 * Hide wp-login.php, wp-signup.php and wp-register.php from possible attacks and return 404 HTTP Error.
 * Hide wp-admin (dashboard) and return 404 HTTP Error when a user isn't logged in.
 * Immediately block IP or subnet when attempting to log in with non-existent or prohibited username.
@@ -100,7 +100,7 @@ It’s compatible with virtually any form you have. Tested with Caldera Forms, G
 
 * Czech, thanks to [Hrohh](https://profiles.wordpress.org/hrohh/)
 * Deutsche, thanks to mario, Mike and [Daniel](http://detacu.de)
-* Dutch, thanks to [Bernardo](https://twitter.com/bernardohulsman)
+* Dutch, thanks to Jos Knippen and [Bernardo](https://twitter.com/bernardohulsman)
 * Français, thanks to [hardesfred](https://profiles.wordpress.org/hardesfred/)
 * Norwegian (Bokmål), thanks to [Eirik Vorland](https://www.facebook.com/KjellDaSensei)
 * Portuguese (Portugal), thanks to Helderk
@@ -114,7 +114,7 @@ It’s compatible with virtually any form you have. Tested with Caldera Forms, G
 Thanks to [POEditor.com](https://poeditor.com) for helping to translate this project.
 
 There are some semi-similar security plugins you can check out: Login LockDown, Login Security Solution,
-BruteProtect, Ajax Login & Register, Lockdown WP Admin,
+BruteProtect, Ajax Login & Register, Lockdown WP Admin, Loginizer,
 BulletProof Security, SiteGuard WP Plugin, All In One WP Security & Firewall, Brute Force Login Protection
 
 **Another reliable plugins from the trusted author**
@@ -212,7 +212,7 @@ Set Threshold fields to 0 or leave them empty.
 
 = What is the goal of using Fail2Ban? =
 
-With Fail2Ban you can protect site on the OS level with iptables. See details here: [http://wpcerber.com/how-to-protect-wordpress-with-fail2ban/](http://wpcerber.com/how-to-protect-wordpress-with-fail2ban/)
+With Fail2Ban you can protect site on the OS level with iptables firewall. See details here: [http://wpcerber.com/how-to-protect-wordpress-with-fail2ban/](http://wpcerber.com/how-to-protect-wordpress-with-fail2ban/)
 
 = Do I need using Fail2Ban to get the plugin working? =
 
@@ -259,10 +259,19 @@ To get access to your dashboard you need to copy the WP Cerber Reset folder to t
 
 == Changelog ==
 
+= 5.7 =
+* New: Limit access to WordPress REST API for logged in users only.
+* New: For new users the plugin records the date of registration, the IP address and a user who has added a new user.
+* New: Sorting users on the Users admin page by date of registration.
+* New: User registration monitoring and activity logging functions has been improved.
+* Translations has been updated, thanks to Jon Knippen, Wojciech Górski and Francesco.
+* Bug fixed: Stop user enumeration via REST API doesn’t work on a multisite WordPress installation.
+* [Read more](http://wpcerber.com/wp-cerber-security-5-7/)
+
 = 5.5 =
-* White list for the WordPress anti-spam engine.
-* White list for REST API requests.
-* Disable access to user data via REST API and stop REST API user enumeration.
+* New: White list for the WordPress anti-spam engine.
+* New: White list for REST API requests.
+* New: Disable access to user data via REST API and stop REST API user enumeration.
 * [Read more](http://wpcerber.com/wp-cerber-security-5-5/)
 
 = 5.2 =

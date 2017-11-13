@@ -1,14 +1,27 @@
 jQuery(document).ready(function ($) {
 
-    /* Load data with AJAX */
+    /* WP Comments page */
+    var comtable = 'table.wp-list-table.comments';
 
-    if ($(".crb-table").length) {
-        cerberLoadData('hostname');
-        cerberLoadData('country');
+    if ($(comtable).length) {
+        $(comtable + " td.column-author").each(function (index) {
+            var ip = $(this).find('a').last().text();
+            var ip_id = cerber_get_id_ip(ip);
+            //$(this).append('<p><img data-ip-id="' + ip_id + '" class="crb-no-hostname" src="' + crb_ajax_loader + '" style="float: none;"/></p>');
+            $(this).append('<p><img data-ip-id="' + ip_id + '" class="crb-no-country" src="' + crb_ajax_loader + '" style="float: none;"/></p>');
+        });
+        //cerberLoadData('hostname');
+        //cerberLoadData('country');
     }
 
-    if ($("table.users").length) {
-        //cerberLoadData('hostname');
+    /* Load data with AJAX */
+
+    //if ($(".crb-table").length) {
+    if ($(".crb-no-hostname").length) {
+        cerberLoadData('hostname');
+    }
+
+    if ($(".crb-no-country").length) {
         cerberLoadData('country');
     }
 
@@ -84,5 +97,12 @@ jQuery(document).ready(function ($) {
     $(".diag-text").on("keypress", function(e) {
         e.preventDefault();
     });
+
+    function cerber_get_id_ip(ip) {
+        var id = ip.replace(/\./g, '-');
+        id = id.replace(/:/g, '_');
+
+        return id;
+    }
 
 });

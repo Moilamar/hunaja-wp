@@ -2,7 +2,7 @@
 /*
 	Cerber Laboratory (cerberlab.net) specific routines.
 
-	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, http://wpcerber.com
+	Copyright (C) 2015-17 CERBER TECH INC., Gregory Markov, https://wpcerber.com
 
     Licenced under the GNU GPL.
 
@@ -474,7 +474,7 @@ function lab_status(){
  */
 function lab_save_push( $ip, $reason_id, $details ) {
 	global $wpdb, $wp_cerber;
-	if ( is_ip_private( $ip ) ) {
+	if ( is_ip_private( $ip ) || cerber_acl_check( $ip, 'W' ) ) {
 		return;
 	}
 	if ( $wp_cerber->getSettings( 'cerberlab' ) ) {
@@ -506,17 +506,19 @@ function lab_trunc_push(){
 	$wpdb->query( 'TRUNCATE TABLE ' . CERBER_LAB_TABLE );
 }
 
-add_action('shutdown','cerber_push_lab');
+add_action( 'shutdown', 'cerber_push_lab' );
 function cerber_push_lab() {
-	global $wp_cerber;
-
-	//if (!$wp_cerber->getSettings('cerberlab') || cerber_get_options('cerberlab')) return;
-	if (!cerber_get_options('cerberlab')) return;
+	if ( ! cerber_get_options( 'cerberlab' ) ) {
+		return;
+	}
+	// TODO: replace with my own cache code because wp_cache_get doesn't work with expiration
 	if ( get_transient( '_cerberpush_' ) ) {
+	//if ( wp_cache_get( '_cerberpush_', 'cerber' ) ) {
 		return;
 	}
 	lab_api_send_request();
 	set_transient( '_cerberpush_', 1, LAB_INTERVAL );
+	//wp_cache_set( '_cerberpush_', 1, 'cerber', LAB_INTERVAL);
 }
 
 function lab_get_key( $regenerate = false, $nocache = false) {
@@ -604,6 +606,14 @@ function lab_lab() {
 	return $key[3];
 }
 
+function lab_indicator(){
+	if (lab_lab()){
+		$key = lab_get_key();
+		$sid = 'Site ID: '.$key[0];
+		return '<div title="'.$sid.'" style="float: right; font-weight: normal; font-size: 80%; padding: 0.35em 0.6em 0.35em 0.6em; color: #fff; background-color: #51AE43;"><span style="vertical-align: top; line-height: 1;" class="dashicons dashicons-yes"></span> Cerber cloud protection is active</div>';
+	}
+}
+
 /**
  * Opt in for the connection to Cerber Lab
  *
@@ -639,7 +649,7 @@ function lab_opt_in(){
 	$text = __('Allow WP Cerber to send locked out malicious IP addresses to Cerber Lab. This helps the plugin team to develop new algorithms for WP Cerber that will defend WordPress against new threats and botnets that are appearing  everyday. You can disable the sending in the plugin settings at any time.','wp-cerber');
 	$ok = __('OK, nail them all','wp-cerber');
 	$no = __('NO, maybe later','wp-cerber');
-	$more = '<a href="http://wpcerber.com/cerber-laboratory/" target="_blank">' . __( 'Know more', 'wp-cerber' ) . '</a>';
+	$more = '<a href="https://wpcerber.com/cerber-laboratory/" target="_blank">' . __( 'Know more', 'wp-cerber' ) . '</a>';
 
 	$msg = '<h3>' . $h . '</h3><p>' . $text . '</p>';
 
@@ -715,6 +725,14 @@ function lab_get_country( $ip, $cache_only = true ) {
 		if ( ! filter_var( $item, FILTER_VALIDATE_IP ) ) {
 			continue;
 		}
+
+		$ip_id = cerber_get_id_ip( $item );
+
+		if ( is_ip_private( $item ) ) {
+			$ret[ $ip_id ] = null;
+			continue;
+		}
+
 		if ( cerber_is_ipv4( $item ) ) {
 			$ip_long = ip2long($item);
 			$where = ' WHERE ip_long_begin <= ' . $ip_long . ' AND ' . $ip_long . ' <= ip_long_end';
@@ -722,9 +740,9 @@ function lab_get_country( $ip, $cache_only = true ) {
 		else {
 			$where = ' WHERE ip = "' . $item . '"';
 		}
+
 		$country = $wpdb->get_var( 'SELECT country FROM ' . CERBER_LAB_NET_TABLE . $where );
 
-		$ip_id = cerber_get_id_ip( $item );
 		if ( $country ) {
 			$ret[ $ip_id ] = $country;
 		}

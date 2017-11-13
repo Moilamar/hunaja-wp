@@ -128,20 +128,24 @@
     left: 22%;
     z-index: 1;
 }
+
 #crb-blog {
     position: relative;
 }
 #crb-blog:after {
-    font-family: "dashicons";
-    content: "\f331";
-    position: absolute;
-    font-size: 150px;
+    /*font-family: "dashicons";
+    content: "\f331";*/
+    font-family: "cerber-icon" !important;
+    content: '\10ffff';
+    font-size: 250px;
     color: grey;
     opacity: 0.2;
-    top: 55%;
-    left: 22%;
     z-index: 1;
+    position: absolute;
+    top: 45%;
+    left: -5%;
 }
+
 #crb-donate {
     position: relative;
 }
@@ -157,6 +161,25 @@
     z-index: 1;
 }
 
+.crb-button-one {
+    display: block;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 105%;
+    padding: 0.5em 0.6em 0.5em 0.6em;
+    color: #fff;
+    background-color: #555;
+}
+.crb-button-one:hover {
+    color: #fff;
+    opacity: 0.7;
+}
+.crb-button-one .dashicons{
+    vertical-align: top;
+    line-height: 1;
+    padding-right: 0.4em;
+}
 
 /* Messages */
 .crb-alarm {
@@ -267,6 +290,7 @@
     color: #ffffff;
     display: inline-block;
     padding: 0 5px 0 5px;
+    vertical-align: middle;
 }
 p.act-url, .act-role{
     color: #777;
@@ -516,6 +540,7 @@ a.nav-tab:first-child{
 }
 
 /* Ip extra, whois */
+
 div#ip-extra {
     overflow: auto;
     padding: 10px 25px;
@@ -702,12 +727,27 @@ table.crb-avatar a{
 #crb-help {
     padding: 0 10px;
 }
-#crb-help h3{
+#crb-help h3 {
     margin-top: 2em;
     margin-bottom: 0.4em;
 }
-#crb-help h3:first-child{
-    margin-top: 1em;
+table#admin-help {
+    width: 100%;
+    border-collapse: collapse;
+}
+table#admin-help tbody td {
+    width: 50%;
+    vertical-align: top;
+    /*padding-top: 2em;*/
+    padding-right: 4em;
+}
+table#admin-help h3,
+table#admin-help img{
+    margin-top: 30px;
+}
+table#admin-help p{
+    margin-top: 0.5em;
+    margin-bottom: 1em;
 }
 
 /* Help sign */
@@ -745,7 +785,7 @@ table.crb-geo-rule td:first-child{
 }
 
 
-/* Multi */
+/* Multi selector */
 
 .multi-wrapper .item {
     padding-left: 24px !important;
@@ -821,6 +861,68 @@ table.vtable td:nth-child(2) {
     /*border-left: none;*/
     min-height: 560px;
     /*height: 300px;*/
+}
+
+
+/* Switches */
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 22px;
+    margin-right: 0.8em;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+input:checked + .slider {
+    background-color: #51AE43;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
 
 
