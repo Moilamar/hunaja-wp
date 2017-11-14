@@ -13,7 +13,7 @@
  * @subpackage Yummy
  * @since Yummy 0.1
  */
- if ($pagename == "ota-yhteytta" || $pagename == "my-account") {
+ if ($pagename == "ota-yhteytta" || $pagename == "my-account" || $pagename == "checkout") {
     global $post;
     get_header("no-banner");
     if ( true === apply_filters( 'yummy_filter_frontpage_content_enable', true ) ) : 

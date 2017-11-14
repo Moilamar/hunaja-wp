@@ -10,7 +10,8 @@ Template Name: Frontpage
  */
 ?>
 <?php
-
+header("Location: http://localhost/hunajawp/wordpress/mesiainen");
+die(); 
 get_header(); ?>
 <div class="wrapper page-section">
     <div id="primary" class="content-area">

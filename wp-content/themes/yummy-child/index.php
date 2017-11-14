@@ -18,7 +18,7 @@ get_header();  ?>
 	<div class="wrapper page-section">
 		<div id="primary" class="content-area">
 			<main  class="site-main" role="main">
-				<div id="main" class="main-archive-wrapper clear">
+				<div id="main" class="main-archive-wrapper clear" style="margin-top:50px;">
 					<?php
 
 					query_posts('post_type=hunaja-info');

@@ -666,14 +666,18 @@ a:active {
 }
 .woocommerce-product-gallery {
     width: 400px !important;
-    margin-left: 70px !important;
+    margin-left: 55px !important;
     margin-top: 20px !important;
+    margin-bottom: 50px !important;
 }
 .summary {
     margin-top: 20px !important;
 }
 .pis-li {
-    height: 100px;
+    height: 80px;
+}
+.pis-title {
+    margin-top: 7px;
 }
 .wpforms-widget .wpforms-container {
     margin-left: 30px !important;
@@ -684,6 +688,45 @@ a:active {
 .wpforms-field-small {
     width: 80% !important;
 }
+.entry-content p {
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.entry-utility {
+    display: none !important;
+}
+.entry-summary, .entry-summary p {
+    width: 90% !important;
+    margin-left: 15px !important;
+    margin-right: 20px !important;
+    padding: 0 !important;
+}
+#primary {
+    /* margin-top: 50px; */
+}
+.post-43 {
+    margin-top: -100px !important;
+}
+.entry-content {
+    padding-top: -10px !important;
+}
+.entry-container {
+    margin-top: 25px !important;
+    margin-bottom: 35px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.woocommerce-product {
+    padding-bottom: 50px !important;
+}
+.col-2 {
+    margin-top: -34px !important;
+}
+
+
+
 
 
 .main-navigation a {
