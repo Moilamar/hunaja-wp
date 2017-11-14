@@ -750,6 +750,16 @@ div.product div {
     background: white;
     margin-left: 0 !important;
 }
+.entry-header {
+    display: none !important;
+}
+.entry-content {
+    padding-bottom: 20px !important;
+    padding-left: 15px !important;
+}
+
+
+
 
 
 .main-navigation a {
