@@ -724,9 +724,32 @@ a:active {
 .col-2 {
     margin-top: -34px !important;
 }
-
-
-
+h1, h2, h3 {
+    margin-left: 33px;
+}
+.hunaja-info {
+    margin-top: -24px !important;
+}
+#post-43 {
+    padding-left: 30px !important;
+    padding-right: 10px !important;
+}
+#wpforms-form-76 {
+    padding-bottom: 20px !important;
+}
+#post-43 h2 {
+    margin-left: 0px !important;
+}
+div.product {
+    margin-top: 35px !important;
+}
+.half-gray {
+    width: 100%;
+}
+div.product div {
+    background: white;
+    margin-left: 0 !important;
+}
 
 
 .main-navigation a {
