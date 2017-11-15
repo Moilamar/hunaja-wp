@@ -57,7 +57,7 @@
                 <main id="main" class="site-main front-page-posts" role="main">
     
                     <?php
-                    query_posts('category=Dokumentaatio');
+                    query_posts('category=Dokumentaatio&orderby=title&order=ASC');
                     while ( have_posts() ) : the_post();
     
                         get_template_part( 'template-parts/content', 'page' );
