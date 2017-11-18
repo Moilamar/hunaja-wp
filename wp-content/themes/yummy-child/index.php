@@ -21,7 +21,7 @@ get_header();  ?>
 				<div id="main" class="main-archive-wrapper clear" style="margin-top:50px;">
 					<?php
 
-					query_posts('post_type=hunaja-info');
+					query_posts('post_type=product&order=ASC');
 					if ( have_posts() ) :
 						
 						$index = 1;

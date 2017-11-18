@@ -10,7 +10,7 @@ Template Name: Frontpage
  */
 ?>
 <?php
-header("Location: http://localhost/hunajawp/wordpress/mesiainen");
+header("Location: http://localhost/hunajawp/wordpress/shop");
 die(); 
 get_header(); ?>
 <div class="wrapper page-section">
@@ -19,7 +19,7 @@ get_header(); ?>
             <div id="main" class="main-archive-wrapper clear">
                 <?php
 
-                query_posts('post_type=hunaja-info');
+                query_posts('post_type=product');
                 if ( have_posts() ) :
                     
                     $index = 1;

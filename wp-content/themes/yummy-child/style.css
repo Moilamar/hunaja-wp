@@ -713,9 +713,7 @@ a:active {
     padding-top: -10px !important;
 }
 .entry-container {
-    margin-top: 25px !important;
     margin-bottom: 35px !important;
-    padding-left: 20px !important;
     padding-right: 20px !important;
 }
 .woocommerce-product {
@@ -757,7 +755,56 @@ div.product div {
     padding-bottom: 20px !important;
     padding-left: 15px !important;
 }
-
+.featured-product {
+    width: 350px !important;
+}
+.product-content {
+    width: 350px !important;
+}
+#tab-title-description {
+    margin-left: 50px !important;
+}
+#product-detail {
+    margin-top: 30px !important;
+    padding-top: 10px !important;
+    background:white !important;
+}
+/*
+.half-grey ::before {
+    background: white !important;
+}
+.column-wrapper {
+    background: white !important;
+} */
+#post-15 h2 {
+    margin-top: 20px !important;
+    margin-left: 50px !important;
+}
+.entry-content p {
+    margin-left: 50px !important;
+    margin-right: 50px !important;
+}
+#post-43 {
+    margin-top: 0px !important;
+}
+#post-43 h2 {
+    margin-top: -10px !important;
+}
+.woocommerce-MyAccount-navigation {
+    margin-left: 30px !important;
+}
+#billing_email, #billing_last_name {
+    margin-left: 100px !important;
+}
+#billing_last_name_field label, #billing_email_field label {
+    margin-left: 100px !important;
+}
+#order_comments {
+    width: 460px !important;
+}
+#customer_details div h3 {
+    margin-left: 50px !important;
+}
 
 
 
