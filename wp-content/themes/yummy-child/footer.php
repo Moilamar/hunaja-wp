@@ -49,7 +49,7 @@ do_action( 'yummy_footer_start' );
  <ul id="menu-footer" style="display:flex;list-style:none;width:100%;margin:0 auto;text-align:center;">
     <span style="display:table;margin:0px auto 0px auto;">
         <span id="menu-item-48" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-48" >
-            <a href="http://localhost/hunajawp/wordpress/ota-yhteytta/">
+            <a href="">
                 <img style="width:60px;border-radius:30px;display:inline;" src="<?php echo $link."wp-content/themes/yummy-child/assets/uploads/mhh.png"  ?>" />
             </a>
         </span>
