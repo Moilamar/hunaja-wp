@@ -805,7 +805,13 @@ div.product div {
 #customer_details div h3 {
     margin-left: 50px !important;
 }
-
+.entry-title {
+    margin-left: 35px !important;
+}
+.entry-content h3 {
+    margin-left: 50px !important;
+    margin-top: 50px !important;
+}
 
 
 
