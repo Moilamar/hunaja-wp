@@ -1,0 +1,62 @@
+2017-11-08T16:56:59+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:02+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:02+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:03+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:03+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:05+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:06+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-08T16:57:27+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-10T14:24:02+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-11T16:44:10+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-11T17:03:38+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-11T18:19:28+00:00 CRITICAL Out of memory (allocated 80216064) (tried to allocate 4801404 bytes)
+
+2017-11-11T18:19:29+00:00 CRITICAL Out of memory (allocated 55312384) (tried to allocate 262145 bytes)
+
+2017-11-11T18:23:35+00:00 CRITICAL Out of memory (allocated 49807360) (tried to allocate 524288 bytes)
+
+2017-11-11T18:23:36+00:00 CRITICAL Out of memory (allocated 49807360) (tried to allocate 524288 bytes)
+
+2017-11-11T19:16:48+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-12T21:47:55+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-14T14:52:34+00:00 CRITICAL Call to undefined function cerber_update_check()
+
+2017-11-14T23:23:25+00:00 CRITICAL Out of memory (allocated 53477376) (tried to allocate 524288 bytes)
+
+2017-11-18T13:37:02+00:00 CRITICAL Call to undefined function cerber_update_check()
+
+2017-11-18T13:42:48+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-18T13:42:48+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-18T13:42:49+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-18T13:42:51+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-18T13:43:15+00:00 CRITICAL Class 'WPSEO_Capability_Manager_Integration' not found
+
+2017-11-18T13:43:15+00:00 CRITICAL Class 'WPSEO_Capability_Manager_Integration' not found
+
+2017-11-24T12:29:34+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2017-11-24T13:00:32+00:00 CRITICAL Out of memory (allocated 51904512) (tried to allocate 524288 bytes)
+
+2017-11-24T13:00:32+00:00 CRITICAL Out of memory (allocated 49020928) (tried to allocate 51 bytes)
+
+2017-11-24T13:00:33+00:00 CRITICAL Out of memory (allocated 57933824) (tried to allocate 458752 bytes)
+
+2017-11-24T13:00:33+00:00 CRITICAL Out of memory (allocated 53477376) (tried to allocate 262145 bytes)
+

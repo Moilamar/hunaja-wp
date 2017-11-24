@@ -1,11 +1,3 @@
-# Exclude these files from the git repo
-wp-content/backup/*
-wp-content/cache/*
-wp-content/upgrade/*
-wp-content/uploads/*
-sitemap.*
-wp-config.php
-07629368d7489a82e495d3b1c0a05ea3836116a4 .txt
 .htaccess
 wp-content/updraft/
 
