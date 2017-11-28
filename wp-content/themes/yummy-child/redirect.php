@@ -10,7 +10,8 @@ Template Name: Redirect
  */
 ?>
 <?php
-header("Location: http://localhost/hunajawp/wordpress/mesiainen");
+$link = "http://$_SERVER[HTTP_HOST]"."/hunajawp/wordpress/";
+header("Location: ".$link."mesiainen");
 die(); 
 get_header("header"); ?>
 
