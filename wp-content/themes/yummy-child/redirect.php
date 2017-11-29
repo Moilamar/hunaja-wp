@@ -13,6 +13,7 @@ Template Name: Redirect
 $link = "http://$_SERVER[HTTP_HOST]"."/hunajawp/wordpress/";
 header("Location: ".$link."mesiainen");
 die(); 
+
 get_header("header"); ?>
 
 <div class="wrapper page-section">
